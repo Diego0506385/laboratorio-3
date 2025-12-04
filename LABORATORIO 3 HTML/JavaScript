@@ -1,0 +1,59 @@
+import { useState } from "react";
+import { FaPlus, FaMinus } from "react-icons/fa";
+
+export default function FAQ() {
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const faqList = [
+    {
+      question: "¿Cómo realizo una compra en línea?",
+      answer:
+        "Para comprar en línea, solo agrega productos al carrito y sigue el proceso de pago con tus datos personales.",
+    },
+    {
+      question: "¿Cuánto tarda el envío?",
+      answer:
+        "El envío tarda entre 2 y 5 días hábiles dependiendo de tu ubicación.",
+    },
+    {
+      question: "¿Aceptan devoluciones?",
+      answer:
+        "Sí, aceptamos devoluciones dentro de los primeros 30 días con el producto en buen estado.",
+    },
+  ];
+
+  const toggleIndex = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+
+  return (
+    <div className="w-full max-w-2xl mx-auto p-6">
+      <h2 className="text-3xl font-bold mb-6 text-center">Preguntas Frecuentes</h2>
+
+      <div className="space-y-4">
+        {faqList.map((item, index) => {
+          const isOpen = activeIndex === index;
+          return (
+            <div key={index} className="border rounded-xl p-4 shadow-sm">
+              <button
+                onClick={() => toggleIndex(index)}
+                className="w-full flex justify-between items-center text-left"
+              >
+                <span className="font-semibold text-lg">{item.question}</span>
+                {isOpen ? <FaMinus /> : <FaPlus />}
+              </button>
+
+              <div
+                className={`transition-all duration-300 overflow-hidden ${
+                  isOpen ? "max-h-40 opacity-100 mt-3" : "max-h-0 opacity-0"
+                }`}
+              >
+                <p className="text-gray-600">{item.answer}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
